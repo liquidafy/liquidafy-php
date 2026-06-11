@@ -1,0 +1,24 @@
+# Composer
+/vendor/
+composer.lock
+
+# PHPUnit
+.phpunit.cache/
+.phpunit.result.cache
+/coverage/
+coverage.xml
+
+# PHPStan
+.phpstan.cache/
+
+# Env / secrets — NEVER commit keys
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
