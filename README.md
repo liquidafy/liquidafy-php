@@ -4,6 +4,8 @@
 > Composer: `liquidafy/liquidafy-php`. Base library for the Magento and WooCommerce plugins.
 
 [![CI](https://github.com/liquidafy/liquidafy-php/actions/workflows/ci.yml/badge.svg)](https://github.com/liquidafy/liquidafy-php/actions/workflows/ci.yml)
+[![Packagist Version](https://img.shields.io/packagist/v/liquidafy/liquidafy-php)](https://packagist.org/packages/liquidafy/liquidafy-php)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## Installation
 
@@ -158,6 +160,12 @@ composer install
 composer test   # PHPUnit
 composer stan   # PHPStan level 8
 ```
+
+## Security
+
+Found a vulnerability? **Never open a public issue.** Report it privately to
+**security@liquidafy.com** or via GitHub private vulnerability reporting —
+see [SECURITY.md](SECURITY.md) for scope, supported versions, and response times.
 
 ## Specs
 

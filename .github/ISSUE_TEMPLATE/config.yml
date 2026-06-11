@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "🔒 Report a security vulnerability (private)"
+    url: "mailto:security@liquidafy.com"
+    about: "Never open a public issue for vulnerabilities. Email security@liquidafy.com or use GitHub private vulnerability reporting on this repo."
+  - name: "💬 Support / integration questions"
+    url: "mailto:support@liquidafy.com"
+    about: "Account, API, or integration help — not SDK bugs."
