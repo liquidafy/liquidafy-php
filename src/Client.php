@@ -8,6 +8,7 @@ use Liquidafy\HTTP\HttpClient;
 use Liquidafy\Resources\Charges;
 use Liquidafy\Resources\Fx;
 use Liquidafy\Resources\Merchants;
+use Liquidafy\Resources\PaymentLinks;
 use Liquidafy\Resources\Refunds;
 use Liquidafy\Resources\WebhookEndpoints;
 use Liquidafy\Resources\Withdrawals;
@@ -42,6 +43,7 @@ final class Client
     public const TEST_KEY_PREFIX = 'lr_test_';
 
     public readonly Charges $charges;
+    public readonly PaymentLinks $paymentLinks;
     public readonly Withdrawals $withdrawals;
     public readonly Refunds $refunds;
     public readonly WebhookEndpoints $webhookEndpoints;
@@ -83,6 +85,7 @@ final class Client
         $this->http = new HttpClient($apiKey, $options);
 
         $this->charges = new Charges($this->http);
+        $this->paymentLinks = new PaymentLinks($this->http);
         $this->withdrawals = new Withdrawals($this->http);
         $this->refunds = new Refunds($this->http);
         $this->webhookEndpoints = new WebhookEndpoints($this->http);
