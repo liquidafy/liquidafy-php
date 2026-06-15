@@ -1,0 +1,61 @@
+name: Release
+
+# Runs the full test suite on a vX.Y.Z tag, then notifies Packagist to
+# pull the new tag. One-time setup: submit the package on packagist.org
+# and add repo secrets PACKAGIST_USERNAME + PACKAGIST_TOKEN (Packagist API
+# token). With the Packagist GitHub app/webhook connected this notify is
+# belt-and-suspenders; without it, it is what publishes the release.
+#
+#   git tag v1.0.0 && git push origin v1.0.0
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Test + notify Packagist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: json, mbstring
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Lint PHP syntax
+        run: find src tests -name '*.php' -print0 | xargs -0 -n1 -P4 php -l
+
+      - name: PHPStan
+        run: vendor/bin/phpstan analyse --no-progress
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit
+
+      - name: Notify Packagist
+        env:
+          PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
+          PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+        run: |
+          if [ -z "${PACKAGIST_TOKEN}" ] || [ -z "${PACKAGIST_USERNAME}" ]; then
+            echo "PACKAGIST_USERNAME/PACKAGIST_TOKEN not set — skipping notify."
+            echo "Register the package on packagist.org and add the secrets to enable auto-publish."
+            exit 0
+          fi
+          curl -sf -X POST -H 'content-type:application/json' \
+            "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_TOKEN}" \
+            -d '{"repository":{"url":"https://packagist.org/packages/liquidafy/liquidafy-php"}}'
+          echo "Notified Packagist."
